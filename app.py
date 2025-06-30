@@ -12,10 +12,11 @@ def login():
     password = st.text_input("Password", type="password")
     
     if st.button("Login"):
-        if username == "admin" and password == "1234":  # Simple hardcoded check for now
-            st.session_state['logged_in'] = True
-            st.session_state['username'] = username
-            st.success("Logged in successfully!")
+        if username == "admin" and password == "1234":
+    st.session_state['logged_in'] = True
+    st.session_state['username'] = username
+    st.success("Logged in successfully!")
+    st.experimental_rerun()  # <-- Add this line here
         else:
             st.error("Invalid username or password")
 
