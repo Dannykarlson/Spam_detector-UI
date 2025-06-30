@@ -4,7 +4,6 @@ import requests
 
 st.set_page_config(page_title="Spam Detector", page_icon="📩")
 
-# Step 1: Define the login function
 def login():
     st.title("Login to Spam Detector")
     
@@ -13,27 +12,23 @@ def login():
     
     if st.button("Login"):
         if username == "admin" and password == "1234":
-    st.session_state['logged_in'] = True
-    st.session_state['username'] = username
-    st.success("Logged in successfully!")
-    st.experimental_rerun()  # <-- Add this line here
+            st.session_state['logged_in'] = True
+            st.session_state['username'] = username
+            st.success("Logged in successfully!")
+            st.experimental_rerun()  # Reload app to show main page
         else:
             st.error("Invalid username or password")
 
-# Step 2: Wrap your existing UI code in a function
 def main_app():
     st.title("📩 Spam Message Classifier")
     st.markdown("This app helps you detect whether a message is **Spam** or **Not Spam**.")
 
-    # Text input
     message = st.text_area("Enter your message:")
 
-    # Prediction button
     if st.button("Predict"):
         if message.strip() == "":
             st.warning("Please enter a message to classify.")
         else:
-            # Send POST request to the FastAPI backend
             response = requests.post(
                 "https://spam-detector-q252.onrender.com/predict",
                 json={"message": message}
@@ -46,7 +41,6 @@ def main_app():
             else:
                 st.error("Something went wrong. Please try again later.")
 
-# Step 3: Control flow to show login or app UI
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
