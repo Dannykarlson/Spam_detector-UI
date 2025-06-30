@@ -4,22 +4,24 @@ import requests
 
 st.set_page_config(page_title="Spam Detector", page_icon="📩")
 
-# Initialize logged_in state if it doesn't exist
+# Initialize session state keys safely
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
+if 'username' not in st.session_state:
+    st.session_state['username'] = ""
 
 def login():
     st.title("Login to Spam Detector")
-    
-    username = st.text_input("Username", key="username")
-    password = st.text_input("Password", type="password", key="password")
-    
-    login_button = st.button("Login")
-    
-    if login_button:
+
+    # Inputs tied to session_state keys
+    username = st.text_input("Username", key="input_username")
+    password = st.text_input("Password", type="password", key="input_password")
+
+    if st.button("Login"):
         if username == "admin" and password == "1234":
             st.session_state['logged_in'] = True
             st.session_state['username'] = username
+            st.experimental_rerun()  # Force rerun to switch to main app
         else:
             st.error("Invalid username or password")
 
@@ -45,7 +47,6 @@ def main_app():
             else:
                 st.error("Something went wrong. Please try again later.")
 
-# Show login or app based on logged_in state
 if st.session_state['logged_in']:
     main_app()
 else:
